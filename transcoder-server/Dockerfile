@@ -9,4 +9,14 @@ RUN /usr/bin/apt-get update && \
 
 WORKDIR /home/app
 
-ENTRYPOINT [ "bash" ]
+# Copy the video file into the container
+COPY main.sh main.sh
+COPY script.js script.js
+COPY package*.json .
+
+RUN npm install
+
+RUN chmod +x main.sh
+RUN chmod +x script.js
+
+ENTRYPOINT [ "/home/app/main.sh" ]

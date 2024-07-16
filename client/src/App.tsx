@@ -12,7 +12,7 @@ import { UploadIcon } from '@radix-ui/react-icons';
 
 function App() {
 	const playerRef = useRef<Player | null>(null)
-	const videoLink = ""
+	const videoLink = "https://s3.ap-south-1.amazonaws.com/rajdip.videotranscoder.public/outputs/index.m3u8"
 
 	const videoPlayerOptions = {
 		controls: true,
@@ -75,16 +75,17 @@ function App() {
 		input.click();
 	}, [])
 
+	
 	return (
 		<div>
 			<div className='flex flex-col items-end m-2 p-2'>
 				<Button className='' onClick={handleUpload}><UploadIcon className='mr-2' />Upload</Button>
 			</div>
+			<VideoPlayer
+				options={videoPlayerOptions}
+				onReady={handlePlayerReady}
+			/>
 		</div>
-		// <VideoPlayer
-		// 	options={videoPlayerOptions}
-		// 	onReady={handlePlayerReady}
-		// />
 	)
 }
 
