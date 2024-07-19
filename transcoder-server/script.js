@@ -4,7 +4,14 @@ const { promisify } = require('util');
 const { pipeline } = require('stream');
 const { exec } = require('child_process')
 const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
+require('dotenv').config();
 
+const bucket = process.env.BUCKET_NAME;
+const bucketToUpload = process.env.BUCKET_NAME_P;
+const inputKey = process.env.KEY;
+const outputKey = `outputs/${inputKey.split('.')[0].split('/')[1]}-${Date.now()}`;
+const inputPath = '/home/app/videos/input.mp4';
+const outputPath = '/home/app/segments';
 const s3Client = new S3Client({
 	region: "ap-south-1",
 	credentials: {
@@ -59,24 +66,20 @@ const transcodeVideo = (inputPath, outputPath) => {
 	});
 };
 
-const filename = 'MCU.mp4-1721142172153.mp4';
-const bucket = 'rajdip.videotranscoder';
-const bucketToUpload = 'rajdip.videotranscoder.public';
-const inputKey = `uploads/${filename}`;
-const outputKey = `outputs/${filename}-${Date.now()}`;
-const inputPath = '/home/app/videos/input.mp4';
-const outputPath = '/home/app/segments';
-
 async function init() {
-	console.log('Executing script.js')
+	try {
+		console.log('Executing script.js')
 
-	await downloadFromS3(bucket, inputKey, inputPath);
-
-	await transcodeVideo(inputPath, outputPath);
-
-	await uploadSegmentsToS3(bucketToUpload, outputKey, outputPath);
-
-	console.log('Done...')
+		await downloadFromS3(bucket, inputKey, inputPath);
+	
+		await transcodeVideo(inputPath, outputPath);
+	
+		await uploadSegmentsToS3(bucketToUpload, outputKey, outputPath);
+	
+		console.log('Done...')	
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 init();

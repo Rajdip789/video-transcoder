@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-ecs": "^3.614.0",
     "@aws-sdk/client-s3": "^3.608.0",
     "@aws-sdk/client-sqs": "^3.606.0",
     "@aws-sdk/s3-request-presigner": "^3.608.0",

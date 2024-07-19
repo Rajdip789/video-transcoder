@@ -36,4 +36,7 @@ web_modules/
 
 # test
 /videos
-/segments
+transcoder-server/videos
+transcoder-server/segments
+
+note.txt
